@@ -1,0 +1,27 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<input type="text" [(ngModel)]="Fname" name="Fname" placeholder="First Name">
+<textarea [(ngModel)]="Lname" name="Lname" placeholder="Last Name"></textarea>
+<textarea [(ngModel)]="mobile" name="mobile" placeholder="Mobile"></textarea>
+<textarea [(ngModel)]="phone" name="phone" placeholder="Phone"></textarea>
+<textarea [(ngModel)]="email" name="email" placeholder="E-mail Address"></textarea>
+<textarea [(ngModel)]="address" name="address" placeholder="Address"></textarea>
+
+<input type="submit" value="Add a Post" (click)="addPost()">
+
+<ul *ngFor="let post of posts | async">
+  <li>
+    <strong>{{ post.Fname}}</strong>
+    <br>
+    <strong>{{ post.Lname}}</strong>
+    <br>
+    <strong>{{ post.mobile}}</strong>
+    <br>
+    <strong>{{ post.phone}}</strong>
+    <br>
+    <strong>{{ post.address}}</strong>
+    <br>
+    <strong>{{ post.email}}</strong>
+    
+  </li>
+</ul>
