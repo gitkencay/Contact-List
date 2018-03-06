@@ -1,6 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
-
-<input type="text" [(ngModel)]="Fname" name="Fname" placeholder="First Name">
+<textarea [(ngModel)]="Fname" name="Fname" placeholder="First Name"></textarea>
 <textarea [(ngModel)]="Lname" name="Lname" placeholder="Last Name"></textarea>
 <textarea [(ngModel)]="mobile" name="mobile" placeholder="Mobile"></textarea>
 <textarea [(ngModel)]="phone" name="phone" placeholder="Phone"></textarea>
@@ -10,18 +9,34 @@
 <input type="submit" value="Add a Post" (click)="addPost()">
 
 <ul *ngFor="let post of posts | async">
-  <li>
-    <strong>{{ post.Fname}}</strong>
-    <br>
-    <strong>{{ post.Lname}}</strong>
-    <br>
-    <strong>{{ post.mobile}}</strong>
-    <br>
-    <strong>{{ post.phone}}</strong>
-    <br>
-    <strong>{{ post.address}}</strong>
-    <br>
-    <strong>{{ post.email}}</strong>
-    
+  <li (click)="getPost(post.id)">
+    <strong> First Name: {{ post.data.Fname}} (<a href="#" (click)="deletePost(post.id)">delete</a>) </strong>
   </li>
+  <li>
+    <strong>Last Name: {{ post.data.Lname}} (<a href="#" (click)="deletePost(post.id)">delete</a>) </strong>
+  </li>
+  <li>
+    <strong>Mobile: {{ post.data.mobile}} (<a href="#" (click)="deletePost(post.id)">delete</a>) </strong>
+  </li>
+  <li>
+    <strong>Phone: {{ post.data.phone}} (<a href="#" (click)="deletePost(post.id)">delete</a>) </strong>
+  </li>
+  <li>
+    <strong>Address: {{ post.data.address}} (<a href="#" (click)="deletePost(post.id)">delete</a>) </strong>
+  </li>
+  <li>
+    <strong>E-mail: {{ post.data.email}} (<a href="#" (click)="deletePost(post.id)">delete</a>) </strong>
+  </li>
+  <br>
+  <br>
 </ul>
+<h1>A specific post:</h1>
+
+<p>{{ (post | async)?.Fname }}</p>
+<p>{{ (post | async)?.Lname }}</p>
+<p>{{ (post | async)?.mobile }}</p>
+<p>{{ (post | async)?.phone }}</p>
+<p>{{ (post | async)?.address }}</p>
+<p>{{ (post | async)?.email }}</p>
+
+

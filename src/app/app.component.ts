@@ -12,6 +12,11 @@ interface Post {
   phone: string;
 }
 
+
+interface PostId extends Post { 
+  id: string; 
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,7 +25,8 @@ interface Post {
 export class AppComponent {
 
   postsCol: AngularFirestoreCollection<Post>;
-  posts: Observable<Post[]>;
+  posts: any;
+
 
   Fname: string;
   Lname: string;
@@ -29,17 +35,39 @@ export class AppComponent {
   mobile: string;
   phone: string;
 
+  postDoc: AngularFirestoreDocument<Post>;
+  post: Observable<Post>;
+
   constructor(private afs: AngularFirestore) {
 
   }
 
   ngOnInit() {
     this.postsCol = this.afs.collection('posts');
-    this.posts = this.postsCol.valueChanges();
+    //this.posts = this.postsCol.valueChanges();
+    this.posts = this.postsCol.snapshotChanges()
+      .map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data() as Post;
+          const id = a.payload.doc.id;
+
+          return { id, data };
+        });
+      });
+
   }
 
   addPost() {
-    this.afs.collection('posts').doc('my-custom-id').set({'First Name': this.Fname, 'Last name': this.Lname, 'Address': this.address, 'E-mail Address': this.email, 'Mobile': this.mobile, 'Phone': this.phone});
+    this.afs.collection('posts').doc('my-custom-id').set({'Fname': this.Fname, 'Lname': this.Lname, 'address': this.address, 'email': this.email, 'mobile': this.mobile, 'phone': this.phone});
+  }
+
+  getPost(postId) {
+    this.postDoc = this.afs.doc('posts/'+postId);
+    this.post = this.postDoc.valueChanges();
+  }
+
+  deletePost(postId) {
+    this.afs.doc('posts/'+postId).delete();
   }
 
   
